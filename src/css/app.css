@@ -1,0 +1,44 @@
+body {
+    background-color: lightgray;
+}
+
+.tableroInicial {
+    background-color: darkgray;
+}
+
+.turno:hover {
+    background-color: gray;
+    transition: 300ms;
+}
+
+.divPadre {
+    background-color: lightblue;
+    display: flex;
+    height: 35vw;
+    width: 37vw;
+    
+}
+
+.divHijoHorizontal {
+    background-color: gray;
+    border: 1px solid black;
+    height: 3vw;
+    
+}
+
+.divHijoVertical {
+    background-color: gray;
+    border: 1px solid black;
+    height: 3vw;
+    
+}
+
+.mar{
+    background-color: #add8e6;
+    
+}
+
+.mar:hover{
+    background-color: #5E548E;
+    transition: 1000ms;
+}
