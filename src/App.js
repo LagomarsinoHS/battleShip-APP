@@ -20,7 +20,6 @@ const App = () => {
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0]
     ],
     naves: [
@@ -31,11 +30,13 @@ const App = () => {
     ]
   })
 
+
   const consigueNombre = (e) => {
     let data = { [e.target.name]: e.target.value }
 
     setState(prevState => {
       return { ...prevState, ...data }
+
     })
   }
 
@@ -62,11 +63,15 @@ const App = () => {
     //console.log(e.target.id)
   }
 
+
+
   const posicionarNave = (e) => {
     //console.log(e.target.id)
     let columna = (e.target.id).charAt((e.target.id).length - 1);
     let tamanoNave = state.naves.filter(nave => nave.nombre === state.navePorPosicionar).map(tamanoNave => tamanoNave.tamano)
     let fila = (e.target.id.charAt(0))
+
+    console.log("PosicionX", fila, "PosicionY", columna)
 
     if (state.navePorPosicionar == null) {
       Swal.fire('Debes elegir una nave primero')
@@ -74,7 +79,6 @@ const App = () => {
     /* Validaciones al poner una nave Verticalmente */
     if (state.direccion === "Vertical") {
       console.log("tamaño nave", tamanoNave)
-      console.log("columna", columna)
       console.log((tamanoNave - 1) * 10 + parseInt(e.target.id))
       if ((columna === "1" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 81) ||
         (columna === "2" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 82) ||
@@ -87,6 +91,33 @@ const App = () => {
         (columna === "9" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 89)) {
         Swal.fire('Nave sobrepasa el margen permitido!')
       }
+      /* Aqui va el seteo de las naves */
+      let { gameBoard } = state
+      let cont = 0;
+
+      while (cont <= tamanoNave) {
+        gameBoard[fila][columna] = 1
+        cont++
+        setState(prevState => {
+          return { ...prevState, gameBoard }
+        })
+        console.log("contador", cont)
+        console.log("tamano", tamanoNave)
+        if (cont == tamanoNave) {
+          Swal.fire(`${state.navePorPosicionar} esta listo, siga con la siguiente nave`)
+
+        }
+      }
+
+
+
+
+      /*  if (cont != tamanoNave) {
+         Swal.fire(`Todavía estas colocando ${state.navePorPosicionar}`)
+       } */
+
+
+
     }
 
     /* Validaciones al poner una nave Horizontalmente */
