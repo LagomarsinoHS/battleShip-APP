@@ -11,10 +11,14 @@ body {
     transition: 300ms;
 }
 
+.btnAviones{
+    display: block;
+    margin: 3px;
+}
 .divPadre {
     background-color: lightblue;
     display: flex;
-    height: 35vw;
+    height: 30vw;
     width: 37vw;
     
 }
@@ -23,6 +27,7 @@ body {
     background-color: gray;
     border: 1px solid black;
     height: 3vw;
+    width: 4vw;
     
 }
 
@@ -30,6 +35,7 @@ body {
     background-color: gray;
     border: 1px solid black;
     height: 3vw;
+    width: 4vw;
     
 }
 
@@ -39,6 +45,7 @@ body {
 }
 
 .mar:hover{
-    background-color: #5E548E;
+    background-color:darkblue;
     transition: 1000ms;
+    cursor: grab;
 }
