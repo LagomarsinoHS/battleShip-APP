@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PanelJugador from './components/panelJugador';
 import PanelSistema from './components/panelSistema';
+import Swal from 'sweetalert2/src/sweetalert2.js'
 
 const App = () => {
 
@@ -9,7 +10,7 @@ const App = () => {
     inicio: true,
     navePorPosicionar: null,
     disparos: 0,
-    VoH: "Vertical",
+    direccion: "Vertical",
     gameBoard: [
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -23,10 +24,10 @@ const App = () => {
       [0, 0, 0, 0, 0, 0, 0, 0, 0]
     ],
     naves: [
-      { nombre: "Portaviones", tamano: 5, lugar: [0, 0, 0, 0, 0] },
-      { nombre: "Acorazado", tamano: 4, lugar: [0, 0, 0, 0] },
-      { nombre: "Submarino", tamano: 3, lugar: [0, 0, 0] },
-      { nombre: "Destructor", tamano: 2, lugar: [0, 0] }
+      { nombre: "Portaviones", tamano: 5, lugar: [0, 0, 0, 0, 0], ok: false },
+      { nombre: "Acorazado", tamano: 4, lugar: [0, 0, 0, 0], ok: false },
+      { nombre: "Submarino", tamano: 3, lugar: [0, 0, 0], ok: false },
+      { nombre: "Destructor", tamano: 2, lugar: [0, 0], ok: false }
     ]
   })
 
@@ -57,15 +58,59 @@ const App = () => {
     })
   }
 
-  const fuego = (e)=>{
-    console.log(e.target.id)
+  const fuego = (e) => {
+    //console.log(e.target.id)
+  }
+
+  const posicionarNave = (e) => {
+    //console.log(e.target.id)
+    let columna = (e.target.id).charAt((e.target.id).length - 1);
+    let tamanoNave = state.naves.filter(nave => nave.nombre === state.navePorPosicionar).map(tamanoNave => tamanoNave.tamano)
+    let fila = (e.target.id.charAt(0))
+
+    if (state.navePorPosicionar == null) {
+      Swal.fire('Debes elegir una nave primero')
+    }
+    /* Validaciones al poner una nave Verticalmente */
+    if (state.direccion === "Vertical") {
+      console.log("tamaño nave", tamanoNave)
+      console.log("columna", columna)
+      console.log((tamanoNave - 1) * 10 + parseInt(e.target.id))
+      if ((columna === "1" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 81) ||
+        (columna === "2" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 82) ||
+        (columna === "3" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 83) ||
+        (columna === "4" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 84) ||
+        (columna === "5" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 85) ||
+        (columna === "6" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 86) ||
+        (columna === "7" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 87) ||
+        (columna === "8" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 88) ||
+        (columna === "9" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 89)) {
+        Swal.fire('Nave sobrepasa el margen permitido!')
+      }
+    }
+
+    /* Validaciones al poner una nave Horizontalmente */
+    if (state.direccion === "Horizontal") {
+      if ((fila === "0" && (tamanoNave - 1) + parseInt(e.target.id) > 9) ||
+        (fila === "1" && (tamanoNave - 1) + parseInt(e.target.id) > 19) ||
+        (fila === "2" && (tamanoNave - 1) + parseInt(e.target.id) > 29) ||
+        (fila === "3" && (tamanoNave - 1) + parseInt(e.target.id) > 39) ||
+        (fila === "4" && (tamanoNave - 1) + parseInt(e.target.id) > 49) ||
+        (fila === "5" && (tamanoNave - 1) + parseInt(e.target.id) > 59) ||
+        (fila === "6" && (tamanoNave - 1) + parseInt(e.target.id) > 69) ||
+        (fila === "7" && (tamanoNave - 1) + parseInt(e.target.id) > 79) ||
+        (fila === "8" && (tamanoNave - 1) + parseInt(e.target.id) > 89)) {
+        Swal.fire('Nave sobrepasa el margen permitido!')
+      }
+
+    }
   }
 
   return (
     <div className="container-fluid">
 
       {
-        state.inicio == false ?
+        state.inicio === false ?
           <>
             <div className="row">
               <div className="col-md-12 border text-center mt-5">
@@ -107,7 +152,7 @@ const App = () => {
             </div>
             <div className="row">
               <div className="col-md d-flex justify-content-center">
-                {/* <h2 style={{ "display": "inline-block" }}>Turno de: <h4 style={{ "display": "inline-block", "color": "green" }}>{state.nombre}</h4></h2> */}
+
                 <h5 style={{ "color": "orange", "fontWeight": "bold" }}>{!state.navePorPosicionar ? "" : state.navePorPosicionar}</h5>
               </div>
             </div>
@@ -122,21 +167,21 @@ const App = () => {
             <div className="row"> {/* Row Linea de paneles */}
               {/* Panel Izquierdo */}
               <div className="col-md-1"><u style={{ "display": "block", "fontWeight": "bold" }}>Tus naves:</u>
-                <button type="button" name="navePorPosicionar" value="Portaviones" class="btn btn-success btn-sm btnAviones" onClick={posicionyNaves}>Portaviones (5 espacios)</button>
-                <button type="button" name="navePorPosicionar" value="Acorazado" class="btn btn-success btn-sm btnAviones" onClick={posicionyNaves}>Acorazado (4 espacios)</button>
-                <button type="button" name="navePorPosicionar" value="Submarino" class="btn btn-success btn-sm btnAviones" onClick={posicionyNaves}>Submarino (3 espacios)</button>
-                <button type="button" name="navePorPosicionar" value="Destructor" class="btn btn-success btn-sm btnAviones" onClick={posicionyNaves}>Destructor (2 espacios)</button>
+                <button type="button" name="navePorPosicionar" value="Portaviones" className="btn btn-success btn-sm btnAviones" onClick={posicionyNaves}>Portaviones (5 espacios)</button>
+                <button type="button" name="navePorPosicionar" value="Acorazado" className="btn btn-success btn-sm btnAviones" onClick={posicionyNaves}>Acorazado (4 espacios)</button>
+                <button type="button" name="navePorPosicionar" value="Submarino" className="btn btn-success btn-sm btnAviones" onClick={posicionyNaves}>Submarino (3 espacios)</button>
+                <button type="button" name="navePorPosicionar" value="Destructor" className="btn btn-success btn-sm btnAviones" onClick={posicionyNaves}>Destructor (2 espacios)</button>
 
                 <div className="form-check mt-2">
                   <p style={{ "fontWeight": "bold" }}>¿Posición a colocar?</p>
-                  <input className="form-check-input" type="radio" name="VoH" value="Vertical" id="rVertical" defaultChecked onClick={posicionyNaves} />
-                  <label className="form-check-label" for="rVertical">
+                  <input className="form-check-input" type="radio" name="direccion" value="Vertical" id="rVertical" defaultChecked onClick={posicionyNaves} />
+                  <label className="form-check-label" htmlFor="rVertical">
                     Vertical
                   </label>
                 </div>
                 <div className="form-check mt-2">
-                  <input className="form-check-input" type="radio" name="VoH" value="Horizontal" id="rHorizontal" onClick={posicionyNaves} />
-                  <label className="form-check-label" for="rHorizontal">
+                  <input className="form-check-input" type="radio" name="direccion" value="Horizontal" id="rHorizontal" onClick={posicionyNaves} />
+                  <label className="form-check-label" htmlFor="rHorizontal">
                     Horizontal
                   </label>
                 </div>
@@ -144,7 +189,7 @@ const App = () => {
 
 
               {/* Panel de Jugador */}
-              <PanelJugador fuego={fuego} />
+              <PanelJugador fuego={fuego} posicionarNave={posicionarNave} />
               {/* -------------------- */}
 
               {/* Panel de Sistema */}
