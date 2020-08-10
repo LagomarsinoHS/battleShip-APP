@@ -8,9 +8,20 @@ El juego básicamente involucra estrategia y un poco de suerte, la finalidad del
 
 
 ### Para hacer correr la aplicación;
-
+ 1. Debes hacer un clone del repositorio [https://github.com/LagomarsinoHS/battleShip-APP.git]
+ 2. Una vez clonado el repositorio, al ingresar a tu IDE de preferencia, abrir un terminal y usar el comando \
+    ```
+    npm install
+    ```
+    Con este código se instalarán todas las librerías y dependencias necesarias para que corra la aplicación
+ 3. Finalmente usar el comando \
+    ```
+    npm start
+    ```
+    Con este comando inicializara la aplicación y podrás usarla.
+    
 ### `npm start`
- ![](img\clonar.png?raw=true "Title") 
+
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
