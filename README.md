@@ -10,7 +10,7 @@ El juego básicamente involucra estrategia y un poco de suerte, la finalidad del
 ### Para hacer correr la aplicación;
 
 ### `npm start`
-![Texto alternativo](../img/clonar.png)
+![Alt text](img\clonar.PNG)
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
