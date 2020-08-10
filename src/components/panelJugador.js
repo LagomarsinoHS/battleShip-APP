@@ -14,7 +14,7 @@ const PanelJugador = props => {
 
 
     return <>
-        <div className="col-md-5 ml-4 border">
+        <div className="col-md-5 ml-4 ">
 
             <div className="row mt-3 text-center">
                 <div className="col-md-1 divHijoVertical"></div>
@@ -31,28 +31,28 @@ const PanelJugador = props => {
 
             <div className="row text-center">
                 <div className="col-md-1 divHijoVertical">A</div>
-                <div className="col-md-1 mar" id="00" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}>00</div>
-                <div className="col-md-1 mar" id="01" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}>01</div>
-                <div className="col-md-1 mar" id="02" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}>02</div>
-                <div className="col-md-1 mar" id="03" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}>03</div>
-                <div className="col-md-1 mar" id="04" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}>04</div>
-                <div className="col-md-1 mar" id="05" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}>05</div>
-                <div className="col-md-1 mar" id="06" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}>06</div>
-                <div className="col-md-1 mar" id="07" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}>07</div>
-                <div className="col-md-1 mar" id="08" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}>08</div>
+                <div className="col-md-1 mar" id="00" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}></div>
+                <div className="col-md-1 mar" id="01" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}></div>
+                <div className="col-md-1 mar" id="02" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}></div>
+                <div className="col-md-1 mar" id="03" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}></div>
+                <div className="col-md-1 mar" id="04" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}></div>
+                <div className="col-md-1 mar" id="05" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}></div>
+                <div className="col-md-1 mar" id="06" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}></div>
+                <div className="col-md-1 mar" id="07" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}></div>
+                <div className="col-md-1 mar" id="08" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}></div>
             </div>
 
             <div className="row text-center">
                 <div className="col-md-1 divHijoVertical">B</div>
-                <div className="col-md-1 mar" id="10" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}>10</div>
-                <div className="col-md-1 mar" id="11" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}>11</div>
-                <div className="col-md-1 mar" id="12" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}>12</div>
-                <div className="col-md-1 mar" id="13" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}>13</div>
-                <div className="col-md-1 mar" id="14" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}>14</div>
-                <div className="col-md-1 mar" id="15" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}>15</div>
-                <div className="col-md-1 mar" id="16" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}>16</div>
-                <div className="col-md-1 mar" id="17" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}>17</div>
-                <div className="col-md-1 mar" id="18" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}>18</div>
+                <div className="col-md-1 mar" id="10" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}></div>
+                <div className="col-md-1 mar" id="11" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}></div>
+                <div className="col-md-1 mar" id="12" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}></div>
+                <div className="col-md-1 mar" id="13" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}></div>
+                <div className="col-md-1 mar" id="14" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}></div>
+                <div className="col-md-1 mar" id="15" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}></div>
+                <div className="col-md-1 mar" id="16" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}></div>
+                <div className="col-md-1 mar" id="17" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}></div>
+                <div className="col-md-1 mar" id="18" onClick={(e) => { props.fuego(e); props.posicionarNave(e) }}></div>
             </div>
 
             <div className="row text-center">

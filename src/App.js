@@ -9,6 +9,7 @@ const App = () => {
     nombre: "",
     inicio: false,
     sigue: true,
+    navesPuestas: false,
     navePorPosicionar: null,
     disparos: 0,
     direccionNave: "Vertical",
@@ -88,9 +89,19 @@ const App = () => {
   const setearNaveOK = (tamano) => {
     let { naves } = state
     naves.filter(nave => nave.tamano == tamano).map(nave => nave.ok = true)
+    navesPuestas()
     setState(prevState => {
       return { ...prevState, naves, navePorPosicionar: null }
     })
+  }
+
+  const navesPuestas = () => {
+    let resultado = state.naves.map(nave => nave.ok)
+    if (resultado.every(e => e == true)) {
+      setState(prevState => {
+        return { ...prevState, navesPuestas: !state.navesPuestas }
+      })
+    }
   }
 
   const posicionarNave = (e) => {
@@ -211,20 +222,23 @@ const App = () => {
             </div>
             <div className="row">
               <div className="col-md d-flex justify-content-center">
-                {/* <h2 style={{ "display": "inline-block" }}>Turno de: <h4 style={{ "display": "inline-block", "color": "green" }}>{state.nombre}</h4></h2> */}
-                <h2>Posicione sus naves!</h2>
+                {
+                  state.navesPuestas ? <h2 style={{ "display": "inline-block" }}>Turno de: <h4 style={{ "display": "inline-block", "color": "green" }}>{state.nombre}</h4></h2> : <h2>Posicione sus naves!</h2>
+                }
+
+
               </div>
             </div>
             <div className="row">
               <div className="col-md d-flex justify-content-center">
 
-                <h5 style={{ "color": "orange", "fontWeight": "bold", "height": "15px" }}>{!state.navePorPosicionar ? "" : state.navePorPosicionar}</h5>
+                <h5 style={{ "color": "orange", "fontWeight": "bold", "height": "15px" }}><u>{!state.navePorPosicionar ? "" : "*" + state.navePorPosicionar + "*"}</u></h5>
               </div>
             </div>
 
             {/* Row de mensajes arriba de los paneles */}
             <div className="row">
-              <div className="col-md-6"><h2 className="text-center">Panel de {!state.nombre ? "" : state.nombre}</h2></div>
+              <div className="col-md-6"><h2 className="text-center">Panel de <i>{!state.nombre ? "" : state.nombre}</i></h2></div>
               <div className="col-md-6"><h2 className="text-center">Panel del Sistema</h2></div>
             </div>
             {/* -----------------------*/}
