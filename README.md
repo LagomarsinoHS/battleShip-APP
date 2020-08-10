@@ -1,9 +1,13 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-# Available Scripts
 
-In the project directory, you can run:
+## Battleship
 
+Proyecto generado con ReactJs y Bootstrap para el diseño de la aplicación.
+Battleship es un juego de mesa con origen Español, su nombre original es "Batalla Naval" pero fue adaptado dependiendo del país en el que se jugó.
+Este juego básicamente involucra estrategia y un poco de suerte. La finalidad del juego es hundir los barcos enemigo antes que el hunda los tuyos 
+
+
+### Para hacer correr la aplicación
 ### `npm start`
 
 Runs the app in the development mode.<br />
