@@ -4,7 +4,7 @@
 
 Proyecto generado con ReactJs y Bootstrap para el diseño de la aplicación. \
 Battleship es un juego de mesa con origen Español, su nombre original es "Batalla Naval" pero fue adaptado dependiendo del país en el que se jugó.
-El juego básicamente involucra estrategia y un poco de suerte, la finalidad del juego es hundir los barcos enemigo antes que el hunda los tuyos.
+El juego básicamente involucra estrategia y un poco de suerte, la finalidad del juego es hundir los barcos enemigos antes que el hunda los tuyos.
 
 
 ### Para hacer correr la aplicación;

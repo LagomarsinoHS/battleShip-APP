@@ -6,14 +6,14 @@ import Swal from 'sweetalert2/src/sweetalert2.js'
 const App = () => {
 
   const [state, setState] = useState({
-    nombre: "Humberto",
-    inicio: true,
+    nombre: "",
+    inicio: false,
     sigue: true,
     navePorPosicionar: null,
     disparos: 0,
     direccionNave: "Vertical",
-    listId: [],
-    gameBoard: [
+    listaID: [],
+    panelJuego: [
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -65,22 +65,18 @@ const App = () => {
     //console.log(e.target.id)
   }
 
-
-  const setCuadrante = (x, y) => {
-    let { gameBoard } = state;
-    gameBoard[x][y] = 1;
+  const setearCuadrante = (x, y) => {
+    let { panelJuego } = state;
+    panelJuego[x][y] = 1;
     setState(prevState => {
-      return { ...prevState, gameBoard }
+      return { ...prevState, panelJuego }
     })
-
-
-
   }
 
   const validaCuadrante = (x, y) => {
-    let { gameBoard } = state;
+    let { panelJuego } = state;
 
-    if (gameBoard[x][y] === 1) {
+    if (panelJuego[x][y] === 1) {
       Swal.fire("Hay Campos ocupados")
       console.log(state.sigue)
       setState(prevState => {
@@ -89,37 +85,25 @@ const App = () => {
     }
   }
 
-
-
   const setearNaveOK = (tamano) => {
     let { naves } = state
     naves.filter(nave => nave.tamano == tamano).map(nave => nave.ok = true)
-
-
     setState(prevState => {
       return { ...prevState, naves, navePorPosicionar: null }
     })
   }
-
-
-
 
   const posicionarNave = (e) => {
     let columna = (e.target.id).charAt((e.target.id).length - 1);
     let tamanoNave = state.naves.filter(nave => nave.nombre === state.navePorPosicionar).map(tamanoNave => tamanoNave.tamano)
     let fila = (e.target.id.charAt(0))
 
-
-
     console.log("fila " + fila, "columna " + columna)
-    console.log(e.target.id)
     if (state.navePorPosicionar == null) {
       Swal.fire('Debes elegir una nave primero')
     } else {
       /* Validaciones al poner una nave Verticalmente */
       if (state.direccionNave === "Vertical") {
-        // console.log("tamaño nave", tamanoNave)
-        //console.log((tamanoNave - 1) * 10 + parseInt(e.target.id))
         if ((columna === "0" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 80) ||
           (columna === "1" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 81) ||
           (columna === "2" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 82) ||
@@ -131,81 +115,59 @@ const App = () => {
           (columna === "8" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 88)) {
           Swal.fire('Nave sobrepasa el margen permitido!')
         } else {
-
-          for (let index = 0; index < tamanoNave; index++) {
-            validaCuadrante(parseInt(fila) + index, columna)
-
+          for (let indice = 0; indice < tamanoNave; indice++) {
+            validaCuadrante(parseInt(fila) + indice, columna)
           }
-
 
           //console.log(state.sigue)
           if (state.sigue === true) {
             let listaId = []
-            for (let index = 0; index < tamanoNave; index++) {
-              setCuadrante(parseInt(fila) + index, columna)
+            for (let indice = 0; indice < tamanoNave; indice++) {
+              setearCuadrante(parseInt(fila) + indice, columna)
               setearNaveOK(tamanoNave)
-
               /* ID que representan los espacios usados por naves */
-              listaId.push((parseInt(fila) + index).toString() + columna)
+              listaId.push((parseInt(fila) + indice).toString() + columna)
               setState(prevState => {
-                return { ...prevState, listId: listaId }
+                return { ...prevState, listaID: listaId }
               })
             }
           }
-
-
-
-
-        }
-
-
-
-
-
-
-
-
-      }//Cierre else, cuando si se elige una nave
-    }
-    /* Validaciones al poner una nave Horizontalmente */
-    if (state.direccionNave === "Horizontal") {
-      if ((fila === "0" && (tamanoNave - 1) + parseInt(e.target.id) > 8) ||
-        (fila === "1" && (tamanoNave - 1) + parseInt(e.target.id) > 18) ||
-        (fila === "2" && (tamanoNave - 1) + parseInt(e.target.id) > 28) ||
-        (fila === "3" && (tamanoNave - 1) + parseInt(e.target.id) > 38) ||
-        (fila === "4" && (tamanoNave - 1) + parseInt(e.target.id) > 48) ||
-        (fila === "5" && (tamanoNave - 1) + parseInt(e.target.id) > 58) ||
-        (fila === "6" && (tamanoNave - 1) + parseInt(e.target.id) > 68) ||
-        (fila === "7" && (tamanoNave - 1) + parseInt(e.target.id) > 78) ||
-        (fila === "8" && (tamanoNave - 1) + parseInt(e.target.id) > 88)) {
-        Swal.fire('Nave sobrepasa el margen permitido!')
-      } else {
-
-
-        for (let index = 0; index < tamanoNave; index++) {
-          validaCuadrante(fila, parseInt(columna) + index)
-
-        }
-        console.log(state.sigue)
-
-
-
-        if (state.sigue === true) {
-          let listaId = []
-          for (let index = 0; index < tamanoNave; index++) {
-            setCuadrante(fila, parseInt(columna) + index)
-            setearNaveOK(tamanoNave)
-            listaId.push(fila + (parseInt(columna) + index).toString())
-            setState(prevState => {
-              return { ...prevState, listId: listaId }
-            })
-          }
-
         }
       }
+
+      /* Validaciones al poner una nave Horizontalmente */
+      if (state.direccionNave === "Horizontal") {
+        if ((fila === "0" && (tamanoNave - 1) + parseInt(e.target.id) > 8) ||
+          (fila === "1" && (tamanoNave - 1) + parseInt(e.target.id) > 18) ||
+          (fila === "2" && (tamanoNave - 1) + parseInt(e.target.id) > 28) ||
+          (fila === "3" && (tamanoNave - 1) + parseInt(e.target.id) > 38) ||
+          (fila === "4" && (tamanoNave - 1) + parseInt(e.target.id) > 48) ||
+          (fila === "5" && (tamanoNave - 1) + parseInt(e.target.id) > 58) ||
+          (fila === "6" && (tamanoNave - 1) + parseInt(e.target.id) > 68) ||
+          (fila === "7" && (tamanoNave - 1) + parseInt(e.target.id) > 78) ||
+          (fila === "8" && (tamanoNave - 1) + parseInt(e.target.id) > 88)) {
+          Swal.fire('Nave sobrepasa el margen permitido!')
+        } else {
+          for (let indice = 0; indice < tamanoNave; indice++) {
+            validaCuadrante(fila, parseInt(columna) + indice)
+          }
+
+          if (state.sigue === true) {
+            let listaId = []
+            for (let indice = 0; indice < tamanoNave; indice++) {
+              setearCuadrante(fila, parseInt(columna) + indice)
+              setearNaveOK(tamanoNave)
+              listaId.push(fila + (parseInt(columna) + indice).toString())
+              setState(prevState => {
+                return { ...prevState, listaID: listaId }
+              })
+            }
+
+          }
+        }
+      }
+
     }
-
-
 
   }//Cierre funcion
 
@@ -271,8 +233,8 @@ const App = () => {
               {/* Panel Izquierdo */}
               <div className="col-md-1"><u style={{ "display": "block", "fontWeight": "bold" }}>Tus naves:</u>
                 {
-                  state.naves.map((nave, index) => {
-                    return <button key={index} type="button" name="navePorPosicionar" value={nave.nombre} disabled={nave.ok} className="btn btn-success btn-sm btnAviones" onClick={posicionyNaves}>{nave.nombre} ({nave.tamano} espacios)</button>
+                  state.naves.map((nave, indice) => {
+                    return <button key={indice} type="button" name="navePorPosicionar" value={nave.nombre} disabled={nave.ok} className="btn btn-success btn-sm btnAviones" onClick={posicionyNaves}>{nave.nombre} ({nave.tamano} espacios)</button>
                   })
                 }
 
@@ -294,7 +256,7 @@ const App = () => {
 
 
               {/* Panel de Jugador */}
-              <PanelJugador fuego={fuego} posicionarNave={posicionarNave} listaId={state.listId} />
+              <PanelJugador fuego={fuego} posicionarNave={posicionarNave} listaId={state.listaID} />
               {/* -------------------- */}
 
               {/* Panel de Sistema */}
