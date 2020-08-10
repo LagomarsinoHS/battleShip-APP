@@ -49,3 +49,7 @@ body {
     transition: 1000ms;
     cursor: grab;
 }
+
+.nave{
+    background-color: darkorange;
+}

@@ -8,9 +8,11 @@ const App = () => {
   const [state, setState] = useState({
     nombre: "Humberto",
     inicio: true,
+    sigue: true,
     navePorPosicionar: null,
     disparos: 0,
-    direccion: "Vertical",
+    direccionNave: "Vertical",
+    listId: [],
     gameBoard: [
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -23,10 +25,10 @@ const App = () => {
       [0, 0, 0, 0, 0, 0, 0, 0, 0]
     ],
     naves: [
-      { nombre: "Portaviones", tamano: 5, lugar: [0, 0, 0, 0, 0], ok: false },
-      { nombre: "Acorazado", tamano: 4, lugar: [0, 0, 0, 0], ok: false },
-      { nombre: "Submarino", tamano: 3, lugar: [0, 0, 0], ok: false },
-      { nombre: "Destructor", tamano: 2, lugar: [0, 0], ok: false }
+      { nombre: "Portaviones", tamano: 5, ok: false },
+      { nombre: "Acorazado", tamano: 4, ok: false },
+      { nombre: "Submarino", tamano: 3, ok: false },
+      { nombre: "Destructor", tamano: 2, ok: false }
     ]
   })
 
@@ -64,78 +66,161 @@ const App = () => {
   }
 
 
+  const setCuadrante = (x, y) => {
+    let { gameBoard } = state;
+    gameBoard[x][y] = 1;
+    setState(prevState => {
+      return { ...prevState, gameBoard }
+    })
+
+
+
+  }
+
+  const validaCuadrante = (x, y) => {
+    let { gameBoard } = state;
+
+    if (gameBoard[x][y] === 1) {
+      Swal.fire("Hay Campos ocupados")
+      console.log(state.sigue)
+      setState(prevState => {
+        return { ...prevState, sigue: !state.sigue }
+      })
+    }
+  }
+
+
+
+  const setearNaveOK = (tamano) => {
+    let { naves } = state
+    naves.filter(nave => nave.tamano == tamano).map(nave => nave.ok = true)
+
+
+    setState(prevState => {
+      return { ...prevState, naves, navePorPosicionar: null }
+    })
+  }
+
+
+
 
   const posicionarNave = (e) => {
-    //console.log(e.target.id)
     let columna = (e.target.id).charAt((e.target.id).length - 1);
     let tamanoNave = state.naves.filter(nave => nave.nombre === state.navePorPosicionar).map(tamanoNave => tamanoNave.tamano)
     let fila = (e.target.id.charAt(0))
 
-    console.log("PosicionX", fila, "PosicionY", columna)
 
+
+    console.log("fila " + fila, "columna " + columna)
+    console.log(e.target.id)
     if (state.navePorPosicionar == null) {
       Swal.fire('Debes elegir una nave primero')
-    }
-    /* Validaciones al poner una nave Verticalmente */
-    if (state.direccion === "Vertical") {
-      console.log("tamaño nave", tamanoNave)
-      console.log((tamanoNave - 1) * 10 + parseInt(e.target.id))
-      if ((columna === "1" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 81) ||
-        (columna === "2" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 82) ||
-        (columna === "3" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 83) ||
-        (columna === "4" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 84) ||
-        (columna === "5" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 85) ||
-        (columna === "6" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 86) ||
-        (columna === "7" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 87) ||
-        (columna === "8" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 88) ||
-        (columna === "9" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 89)) {
-        Swal.fire('Nave sobrepasa el margen permitido!')
-      }
-      /* Aqui va el seteo de las naves */
-      let { gameBoard } = state
-      let cont = 0;
+    } else {
+      /* Validaciones al poner una nave Verticalmente */
+      if (state.direccionNave === "Vertical") {
+        // console.log("tamaño nave", tamanoNave)
+        //console.log((tamanoNave - 1) * 10 + parseInt(e.target.id))
+        if ((columna === "0" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 80) ||
+          (columna === "1" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 81) ||
+          (columna === "2" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 82) ||
+          (columna === "3" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 83) ||
+          (columna === "4" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 84) ||
+          (columna === "5" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 85) ||
+          (columna === "6" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 86) ||
+          (columna === "7" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 87) ||
+          (columna === "8" && (tamanoNave - 1) * 10 + parseInt(e.target.id) > 88)) {
+          Swal.fire('Nave sobrepasa el margen permitido!')
+        } else {
 
-      while (cont <= tamanoNave) {
-        gameBoard[fila][columna] = 1
-        cont++
-        setState(prevState => {
-          return { ...prevState, gameBoard }
-        })
-        console.log("contador", cont)
-        console.log("tamano", tamanoNave)
-        if (cont == tamanoNave) {
-          Swal.fire(`${state.navePorPosicionar} esta listo, siga con la siguiente nave`)
+          for (let index = 0; index < tamanoNave; index++) {
+            validaCuadrante(parseInt(fila) + index, columna)
+
+            if(state.sigue==true){
+              let listaId = []
+              for (let index = 0; index < tamanoNave; index++) {
+                setCuadrante(parseInt(fila) + index, columna)
+                setearNaveOK(tamanoNave)
+  
+                /* ID que representan los espacios usados por naves */
+                listaId.push((parseInt(fila) + index).toString() + columna)
+                setState(prevState => {
+                  return { ...prevState, listId: listaId }
+                })
+              }
+            }
+          }
+
+
+          //console.log(state.sigue)
+         /*  if (state.sigue === true) {
+            let listaId = []
+            for (let index = 0; index < tamanoNave; index++) {
+              setCuadrante(parseInt(fila) + index, columna)
+              setearNaveOK(tamanoNave)
+ */
+              /* ID que representan los espacios usados por naves */
+            /*   listaId.push((parseInt(fila) + index).toString() + columna)
+              setState(prevState => {
+                return { ...prevState, listId: listaId }
+              })
+            }
+          } */
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+      }//Cierre else, cuando si se elige una nave
+    }
+    /* Validaciones al poner una nave Horizontalmente */
+    if (state.direccionNave === "Horizontal") {
+      if ((fila === "0" && (tamanoNave - 1) + parseInt(e.target.id) > 8) ||
+        (fila === "1" && (tamanoNave - 1) + parseInt(e.target.id) > 18) ||
+        (fila === "2" && (tamanoNave - 1) + parseInt(e.target.id) > 28) ||
+        (fila === "3" && (tamanoNave - 1) + parseInt(e.target.id) > 38) ||
+        (fila === "4" && (tamanoNave - 1) + parseInt(e.target.id) > 48) ||
+        (fila === "5" && (tamanoNave - 1) + parseInt(e.target.id) > 58) ||
+        (fila === "6" && (tamanoNave - 1) + parseInt(e.target.id) > 68) ||
+        (fila === "7" && (tamanoNave - 1) + parseInt(e.target.id) > 78) ||
+        (fila === "8" && (tamanoNave - 1) + parseInt(e.target.id) > 88)) {
+        Swal.fire('Nave sobrepasa el margen permitido!')
+      } else {
+
+
+        for (let index = 0; index < tamanoNave; index++) {
+          validaCuadrante(fila, parseInt(columna) + index)
+
+        }
+
+
+
+
+        if (state.sigue === true) {
+          let listaId = []
+          for (let index = 0; index < tamanoNave; index++) {
+            setCuadrante(fila, parseInt(columna) + index)
+            setearNaveOK(tamanoNave)
+            listaId.push(fila + (parseInt(columna) + index).toString())
+            setState(prevState => {
+              return { ...prevState, listId: listaId }
+            })
+          }
 
         }
       }
-
-
-
-
-      /*  if (cont != tamanoNave) {
-         Swal.fire(`Todavía estas colocando ${state.navePorPosicionar}`)
-       } */
-
-
-
     }
 
-    /* Validaciones al poner una nave Horizontalmente */
-    if (state.direccion === "Horizontal") {
-      if ((fila === "0" && (tamanoNave - 1) + parseInt(e.target.id) > 9) ||
-        (fila === "1" && (tamanoNave - 1) + parseInt(e.target.id) > 19) ||
-        (fila === "2" && (tamanoNave - 1) + parseInt(e.target.id) > 29) ||
-        (fila === "3" && (tamanoNave - 1) + parseInt(e.target.id) > 39) ||
-        (fila === "4" && (tamanoNave - 1) + parseInt(e.target.id) > 49) ||
-        (fila === "5" && (tamanoNave - 1) + parseInt(e.target.id) > 59) ||
-        (fila === "6" && (tamanoNave - 1) + parseInt(e.target.id) > 69) ||
-        (fila === "7" && (tamanoNave - 1) + parseInt(e.target.id) > 79) ||
-        (fila === "8" && (tamanoNave - 1) + parseInt(e.target.id) > 89)) {
-        Swal.fire('Nave sobrepasa el margen permitido!')
-      }
 
-    }
-  }
+
+  }//Cierre funcion
 
   return (
     <div className="container-fluid">
@@ -184,7 +269,7 @@ const App = () => {
             <div className="row">
               <div className="col-md d-flex justify-content-center">
 
-                <h5 style={{ "color": "orange", "fontWeight": "bold" }}>{!state.navePorPosicionar ? "" : state.navePorPosicionar}</h5>
+                <h5 style={{ "color": "orange", "fontWeight": "bold", "height": "15px" }}>{!state.navePorPosicionar ? "" : state.navePorPosicionar}</h5>
               </div>
             </div>
 
@@ -198,20 +283,22 @@ const App = () => {
             <div className="row"> {/* Row Linea de paneles */}
               {/* Panel Izquierdo */}
               <div className="col-md-1"><u style={{ "display": "block", "fontWeight": "bold" }}>Tus naves:</u>
-                <button type="button" name="navePorPosicionar" value="Portaviones" className="btn btn-success btn-sm btnAviones" onClick={posicionyNaves}>Portaviones (5 espacios)</button>
-                <button type="button" name="navePorPosicionar" value="Acorazado" className="btn btn-success btn-sm btnAviones" onClick={posicionyNaves}>Acorazado (4 espacios)</button>
-                <button type="button" name="navePorPosicionar" value="Submarino" className="btn btn-success btn-sm btnAviones" onClick={posicionyNaves}>Submarino (3 espacios)</button>
-                <button type="button" name="navePorPosicionar" value="Destructor" className="btn btn-success btn-sm btnAviones" onClick={posicionyNaves}>Destructor (2 espacios)</button>
+                {
+                  state.naves.map((nave, index) => {
+                    return <button key={index} type="button" name="navePorPosicionar" value={nave.nombre} disabled={nave.ok} className="btn btn-success btn-sm btnAviones" onClick={posicionyNaves}>{nave.nombre} ({nave.tamano} espacios)</button>
+                  })
+                }
+
 
                 <div className="form-check mt-2">
                   <p style={{ "fontWeight": "bold" }}>¿Posición a colocar?</p>
-                  <input className="form-check-input" type="radio" name="direccion" value="Vertical" id="rVertical" defaultChecked onClick={posicionyNaves} />
+                  <input className="form-check-input" type="radio" name="direccionNave" value="Vertical" id="rVertical" defaultChecked onClick={posicionyNaves} />
                   <label className="form-check-label" htmlFor="rVertical">
                     Vertical
                   </label>
                 </div>
                 <div className="form-check mt-2">
-                  <input className="form-check-input" type="radio" name="direccion" value="Horizontal" id="rHorizontal" onClick={posicionyNaves} />
+                  <input className="form-check-input" type="radio" name="direccionNave" value="Horizontal" id="rHorizontal" onClick={posicionyNaves} />
                   <label className="form-check-label" htmlFor="rHorizontal">
                     Horizontal
                   </label>
@@ -220,7 +307,7 @@ const App = () => {
 
 
               {/* Panel de Jugador */}
-              <PanelJugador fuego={fuego} posicionarNave={posicionarNave} />
+              <PanelJugador fuego={fuego} posicionarNave={posicionarNave} listaId={state.listId} />
               {/* -------------------- */}
 
               {/* Panel de Sistema */}
