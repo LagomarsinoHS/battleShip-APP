@@ -6,7 +6,7 @@ const PanelJugador = props => {
         props.listaId.map(id => {
             let divId = document.getElementById(`${id}`)
             divId.classList.add("nave")
-            console.log(divId)
+           
         })
     }
 

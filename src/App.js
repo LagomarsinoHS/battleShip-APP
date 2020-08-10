@@ -135,36 +135,23 @@ const App = () => {
           for (let index = 0; index < tamanoNave; index++) {
             validaCuadrante(parseInt(fila) + index, columna)
 
-            if(state.sigue==true){
-              let listaId = []
-              for (let index = 0; index < tamanoNave; index++) {
-                setCuadrante(parseInt(fila) + index, columna)
-                setearNaveOK(tamanoNave)
-  
-                /* ID que representan los espacios usados por naves */
-                listaId.push((parseInt(fila) + index).toString() + columna)
-                setState(prevState => {
-                  return { ...prevState, listId: listaId }
-                })
-              }
-            }
           }
 
 
           //console.log(state.sigue)
-         /*  if (state.sigue === true) {
+          if (state.sigue === true) {
             let listaId = []
             for (let index = 0; index < tamanoNave; index++) {
               setCuadrante(parseInt(fila) + index, columna)
               setearNaveOK(tamanoNave)
- */
+
               /* ID que representan los espacios usados por naves */
-            /*   listaId.push((parseInt(fila) + index).toString() + columna)
+              listaId.push((parseInt(fila) + index).toString() + columna)
               setState(prevState => {
                 return { ...prevState, listId: listaId }
               })
             }
-          } */
+          }
 
 
 
@@ -199,7 +186,7 @@ const App = () => {
           validaCuadrante(fila, parseInt(columna) + index)
 
         }
-
+        console.log(state.sigue)
 
 
 
